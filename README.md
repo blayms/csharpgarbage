@@ -13,7 +13,7 @@ Most of it? Well... let’s just say...
 This repo contains a variety of C# snippets, ranging from small utilities to weird experiments??? Some files might be polished, others could be poorly optimized.
 
 ### 🚀 **Standalone Scripts**
-These are self-contained C# scripts that may do something useful—or at least interesting.  
+These are self-contained C# scripts that may do something useful — or at least interesting.  
 You might find:
 - **Math & Utility Functions** – Because why not reinvent the wheel?  
 - **Console Applications** – Small scripts doing random tasks.  
