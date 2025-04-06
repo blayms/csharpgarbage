@@ -22,6 +22,13 @@ public static class FileGardenManager
     /// </summary>
     /// <param name="gardenID">Identificator of the garden</param>
     /// <exception cref="InvalidOperationException">Thrown if the manager was already initialized</exception>
+    private static void CheckForInitialization()
+    {
+        if (!Initialized)
+        {
+            throw new InvalidOperationException($"{nameof(FileGardenManager)} was never initialized! Call {nameof(FileGardenManager)}{nameof(Initialize)}() to intialize the manager!");
+        }
+    }
     public static void Initialize(string gardenID)
     {
         if (!Initialized)
@@ -40,15 +47,9 @@ public static class FileGardenManager
     /// <exception cref="InvalidOperationException">Thrown if the manager was never initialized</exception>
     public static void Uninitialize()
     {
-        if (Initialized)
-        {
-            GardenID = string.Empty;
-            Initialized = false;
-        }
-        else
-        {
-            throw new InvalidOperationException($"{nameof(FileGardenManager)} was never initialized! Call {nameof(FileGardenManager)}{nameof(Initialize)}() to intialize the manager!");
-        }
+        CheckForInitialization();
+        GardenID = string.Empty;
+        Initialized = false;
     }
     /// <summary>
     /// Tries to run <see cref="Uninitialize"/> and then initializes the manager with specified garden identificator
@@ -62,6 +63,7 @@ public static class FileGardenManager
 
     private static async Task<HttpContent> GrabContentAsync(string fileID)
     {
+        CheckForInitialization();
         string url = $"https://file.garden/{GardenID}/{fileID}";
         using (HttpClient http = new HttpClient())
         {
@@ -81,6 +83,7 @@ public static class FileGardenManager
     /// <returns></returns>
     public static async Task<string> GrabStringAsync(string fileID, Encoding? encoding = null)
     {
+        CheckForInitialization();
         var content = await GrabContentAsync(fileID);
         var bytes = await content.ReadAsByteArrayAsync();
         return (encoding ?? Encoding.Default).GetString(bytes);
@@ -92,6 +95,7 @@ public static class FileGardenManager
     /// <returns></returns>
     public static async Task<byte[]> GrabBytesAsync(string fileID)
     {
+        CheckForInitialization();
         return await GrabContentAsync(fileID).Result.ReadAsByteArrayAsync();
     }
     /// <summary>
@@ -101,6 +105,7 @@ public static class FileGardenManager
     /// <returns></returns>
     public static async Task<Stream> GrabStreamAsync(string fileID)
     {
+        CheckForInitialization();
         return await GrabContentAsync(fileID).Result.ReadAsStreamAsync();
     }
     /// <summary>
@@ -114,6 +119,7 @@ public static class FileGardenManager
     /// <returns><see cref="IEnumerator"/> that yields while the async task is running.</returns>
     public static IEnumerator GrabStringCoroutine(string fileID, Encoding? encoding = null, Action<string>? onSuccess = null, Action<Exception>? onError = null)
     {
+        CheckForInitialization();
         Task<string> task = GrabStringAsync(fileID, encoding);
         while (!task.IsCompleted)
         {
@@ -139,6 +145,7 @@ public static class FileGardenManager
     /// <returns><see cref="IEnumerator"/> that yields while the async task is running.</returns>
     public static IEnumerator GrabBytesCoroutine(string fileID, Action<byte[]>? onSuccess = null, Action<Exception>? onError = null)
     {
+        CheckForInitialization();
         Task<byte[]> task = GrabBytesAsync(fileID);
         while (!task.IsCompleted)
         {
@@ -164,6 +171,7 @@ public static class FileGardenManager
     /// <returns><see cref="IEnumerator"/> that yields while the async task is running.</returns>
     public static IEnumerator GrabStreamCoroutine(string fileID, Action<Stream>? onSuccess = null, Action<Exception>? onError = null)
     {
+        CheckForInitialization();
         Task<Stream> task = GrabStreamAsync(fileID);
         while (!task.IsCompleted)
         {
