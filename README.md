@@ -1,5 +1,5 @@
 # 🗑️ C# Garbage – A Collection of Random C# Code
-<sub><sup>All of that was obviously written by ChatGPT, but it's like 40% correct, maybe...</sup></sub><br/>
+<sub><sup>All of that README.md was obviously written by ChatGPT, but it's like 40% correct, maybe...</sup></sub><br/>
 Welcome to **C# Garbage**, a chaotic repository filled with random C# scripts, experiments, and maybe even full projects!  
 This is not a structured library, nor is it meant to be a "serious" codebase. Instead, it’s basically a trash bin that contains various C# files written by [Blayms](https://blayms.github.io/about-me/).  
 
